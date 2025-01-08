@@ -37,11 +37,11 @@ export class ViacepService {
 
       return formattedAddress;
     } catch (error) {
-      if (error.response.status === 400) {
+      if (error.status === 400) {
         throw new BadRequestException('CEP inválido');
       }
 
-      throw new Error('API indisponível');
+      throw new Error(error);
     }
   }
 }

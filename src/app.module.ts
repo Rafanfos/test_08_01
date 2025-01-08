@@ -10,18 +10,18 @@ import { LoggerModule } from './logger/logger.module';
 @Module({
   imports: [
     ViacepModule,
-    ConfigModule.forRoot(),
-    ConfigModule.forFeature(appConfig),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => {
-        const typeormConfig = configService.get('dbConfig');
-        return {
-          ...typeormConfig,
-        };
-      },
-    }),
+    // ConfigModule.forRoot(),
+    // ConfigModule.forFeature(appConfig),
+    // TypeOrmModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   inject: [ConfigService],
+    //   useFactory: async (configService: ConfigService) => {
+    //     const typeormConfig = configService.get('dbConfig');
+    //     return {
+    //       ...typeormConfig,
+    //     };
+    //   },
+    // }),
     LoggerModule,
   ],
   controllers: [AppController],

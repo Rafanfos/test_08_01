@@ -5,7 +5,7 @@ import { HttpModule } from '@nestjs/axios';
 import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
-  imports: [HttpModule, CacheModule.register({ ttl: 3600, max: 100 })],
+  imports: [HttpModule, CacheModule.register({ ttl: 60, max: 100 })],
   controllers: [ViacepController],
   providers: [ViacepService],
 })
