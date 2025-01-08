@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import { firstValueFrom } from 'rxjs';
 import { IAddress, IViacepAddress } from 'src/interfaces/address.interface';
@@ -19,21 +19,29 @@ export class ViacepService {
       return cachedAddress;
     }
 
-    const response = await firstValueFrom(
-      this.httpService.get<IViacepAddress>(
-        `https://viacep.com.br/ws/${cep}/json/`,
-      ),
-    );
+    try {
+      const response = await firstValueFrom(
+        this.httpService.get<IViacepAddress>(
+          `https://viacep.com.br/ws/${cep}/json/`,
+        ),
+      );
 
-    const { logradouro, bairro, localidade, uf } = response.data;
+      const { logradouro, bairro, localidade, uf } = response.data;
 
-    const formattedAddress: IAddress = {
-      street: logradouro,
-      neighborhood: bairro,
-      city: localidade,
-      state: uf,
-    };
+      const formattedAddress: IAddress = {
+        street: logradouro,
+        neighborhood: bairro,
+        city: localidade,
+        state: uf,
+      };
 
-    return formattedAddress;
+      return formattedAddress;
+    } catch (error) {
+      if (error.response.status === 400) {
+        throw new BadRequestException('CEP inválido');
+      }
+
+      throw new Error('API indisponível');
+    }
   }
 }
