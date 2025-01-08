@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get } from '@nestjs/common';
 import { ViacepService } from './viacep.service';
 import { CepDto } from './dto/cep.dto';
 
@@ -7,8 +7,8 @@ export class ViacepController {
   constructor(private readonly viacepService: ViacepService) {}
 
   @Get(':cep')
-  async getAddress(@Param() params: CepDto) {
-    const { cep } = params;
+  async getAddress(@Body() cepDto: CepDto) {
+    const { cep } = cepDto;
     return await this.viacepService.getAddress(cep);
   }
 }

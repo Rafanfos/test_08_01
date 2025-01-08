@@ -1,3 +1,7 @@
 @baseUrl = http://127.0.0.1:3000
 
-GET {{baseUrl}}/viacep/31580570
+POST {{baseUrl}}/viacep/31580570
+
+{
+    "cep": "31580570"
+}
